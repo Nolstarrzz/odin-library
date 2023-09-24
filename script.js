@@ -1,4 +1,6 @@
 let myLibrary = [];
+let form = document.getElementById("popUpForm");
+
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -21,5 +23,18 @@ function loopBooks() {
   }
 }
 
-addBookToLibrary("The Hobbit", "J.R.R Tolkien", 295, "not read yet")
-loopBooks();
+function cancelForm()
+{
+  form.style.display = 'none';
+}
+
+function startForm()
+{
+  form.style.display = 'grid';
+  let title = document.getElementById("title");
+  let author = document.getElementById("author");
+  let pages = document.getElementById("pages");
+  let read = document.getElementById("readOption");
+  addBookToLibrary(title, author, pages, read)
+  loopBooks();
+}
