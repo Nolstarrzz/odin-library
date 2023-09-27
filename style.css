@@ -97,3 +97,16 @@ body {
     width: 200px;
     height: 50px;
 }
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: blue;
+
+}
+
+.book-area {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}

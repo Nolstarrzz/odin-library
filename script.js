@@ -1,5 +1,7 @@
 let myLibrary = [];
 
+let bookArea = document.getElementById('book-area');
+
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -17,11 +19,53 @@ function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(newBook);
 }
 
+function resetBooks()
+{
+  bookArea.innerHTML = '';
+}
+
+function createBook(book)
+{
+  const bookCard = document.createElement('div')
+  const title = document.createElement('p')
+  const author = document.createElement('p')
+  const pages = document.createElement('p')
+  const buttonGroup = document.createElement('div')
+  const readBtn = document.createElement('button')
+  const removeBtn = document.createElement('button')
+
+  bookCard.classList.add('book-card')
+
+  title.textContent = book.title;
+  author.textContent = book.author;
+  pages.textContent = `${book.pages} pages`;
+  removeBtn.textContent = 'Remove'
+  if(book.read === true)
+  {
+    readBtn.textContent = 'Read';
+  }
+  else
+  {
+    readBtn.textContent = 'Not Read';
+  }
+
+  bookCard.appendChild(title)
+  bookCard.appendChild(author)
+  bookCard.appendChild(pages)
+  buttonGroup.appendChild(readBtn)
+  buttonGroup.appendChild(removeBtn)
+  bookCard.appendChild(buttonGroup)
+  bookArea.appendChild(bookCard)
+}
+
 function loopBooks() {
+  resetBooks()
   for (const book of myLibrary) {
-    console.log(book.title + " by " + book.author + ", " + book.pages + ", " + book.read);
+    createBook(book);
   }
 }
+
+
 function cancelForm()
 {
   let form = document.getElementById("popUpForm");
@@ -45,7 +89,7 @@ function getValues() {
   
   if (!title || !author || !pages || (!read1 && !read2)) {
     alert("Please fill out all required fields.");
-    return; // Stop processing the form
+    return;
   }
 
   console.log("Title:", title);
@@ -65,3 +109,4 @@ function getValues() {
   addBookToLibrary(title, author, pages, read);
   loopBooks();
 }
+
