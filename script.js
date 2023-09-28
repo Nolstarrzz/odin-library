@@ -8,7 +8,6 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
-  console.log(read)
   this.info = function() {
     return(title + " by " + author + ", " + pages + ", " + read);
   }
@@ -37,19 +36,22 @@ function createBook(book)
   bookCard.classList.add('book-card')
   buttonGroup.classList.add('book-card-btns-container')
   removeBtn.classList.add('book-card-btns')
+  removeBtn.classList.add('remove-button')
   readBtn.classList.add('book-card-btns')
 
   title.textContent = book.title;
   author.textContent = book.author;
   pages.textContent = `${book.pages} pages`;
   removeBtn.textContent = 'Remove'
-  if(book.read === true)
+  if(book.read)
   {
     readBtn.textContent = 'Read';
+    readBtn.classList.add('read-button-true')
   }
   else
   {
     readBtn.textContent = 'Not Read';
+    readBtn.classList.add('read-button-false')
   }
 
   bookCard.appendChild(title)
@@ -60,6 +62,32 @@ function createBook(book)
   bookCard.appendChild(buttonGroup)
   bookArea.appendChild(bookCard)
 }
+
+function removeBook(title) {
+  const index = myLibrary.findIndex(book => book.title === title);
+  if (index !== -1) {
+    myLibrary.splice(index, 1);
+  }
+}
+
+const bookCardContainer = document.querySelector('.main-content');
+
+bookCardContainer.addEventListener('click', function (event) {
+  if (event.target.classList.contains('remove-button')) {
+    const bookCard = event.target.closest('.book-card');
+    if (bookCard) {
+      // Get the title of the book associated with the clicked button
+      const titleElement = bookCard.querySelector('p'); // Assuming the title is in a <p> element
+      const title = titleElement.textContent;
+
+      // Call removeBook to remove the book from the library
+      removeBook(title);
+
+      // Optionally, update the displayed books after removal
+      loopBooks();
+    }
+  }
+});
 
 function loopBooks() {
   resetBooks()
@@ -82,32 +110,18 @@ function startForm()
 }
 
 function getValues() {
-  let read;
+  let read = document.querySelector('input[name="read"]:checked');
   let form = document.getElementById("popUpForm");
   let title = document.getElementById("title").value;
   let author = document.getElementById("author").value;
   let pages = document.getElementById("pages").value;
-  let read1 = document.getElementById("notRead").checked;
-  let read2 = document.getElementById("read").checked;
   
-  if (!title || !author || !pages || (!read1 && !read2)) {
+  if (!title || !author || !pages || read) {
     alert("Please fill out all required fields.");
     return;
   }
 
-  console.log("Title:", title);
-  console.log("Author:", author);
-  console.log("Pages:", pages);
-  console.log("Read1:", read1);
-  console.log("Read2:", read2);
-
-  if (read1) {
-    read = read1;
-    console.log("Read:", read);
-  } else if (read2) {
-    read = read2;
-    console.log("Read:", read);
-  }
+  console.log("Read:", read);
 
   addBookToLibrary(title, author, pages, read);
   loopBooks();

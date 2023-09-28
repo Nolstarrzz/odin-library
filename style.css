@@ -73,7 +73,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay background */
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 9;
   }
 
@@ -120,7 +120,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: blue;
+    background-color: rgb(167, 167, 167);
+    text-align: center;
+    border-radius: 10px;
 }
 
 .book-area {
@@ -133,11 +135,18 @@ body {
 .book-card-btns {
     width: 80%;
     height: 50px;
-    margin: 20px;
+    margin: 5px;
+    margin-bottom: 10px;
 }
 
 .book-card-btns-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.book-card p{
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
 }
