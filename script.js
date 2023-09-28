@@ -35,6 +35,9 @@ function createBook(book)
   const removeBtn = document.createElement('button')
 
   bookCard.classList.add('book-card')
+  buttonGroup.classList.add('book-card-btns-container')
+  removeBtn.classList.add('book-card-btns')
+  readBtn.classList.add('book-card-btns')
 
   title.textContent = book.title;
   author.textContent = book.author;
@@ -75,7 +78,7 @@ function cancelForm()
 function startForm()
 {
   let form = document.getElementById("popUpForm");
-  form.style.display = 'grid';
+  form.style.display = 'flex';
 }
 
 function getValues() {
@@ -108,5 +111,6 @@ function getValues() {
 
   addBookToLibrary(title, author, pages, read);
   loopBooks();
+  form.style.display = 'none';
 }
 
