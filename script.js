@@ -14,8 +14,14 @@ function Book(title, author, pages, read) {
 }
 
 function addBookToLibrary(title, author, pages, read) {
-  const newBook = new Book(title, author, pages, read);
-  myLibrary.push(newBook);
+  const isDuplicate = myLibrary.some(book => book.title === title);
+
+  if (!isDuplicate) {
+    const newBook = new Book(title, author, pages, read);
+    myLibrary.push(newBook);
+  } else {
+    alert("A book with the same title already exists in your library.");
+  }
 }
 
 function resetBooks()
