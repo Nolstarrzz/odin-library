@@ -38,20 +38,22 @@ function createBook(book)
   removeBtn.classList.add('book-card-btns')
   removeBtn.classList.add('remove-button')
   readBtn.classList.add('book-card-btns')
+  readBtn.classList.add('read-button')
 
   title.textContent = book.title;
   author.textContent = book.author;
   pages.textContent = `${book.pages} pages`;
   removeBtn.textContent = 'Remove'
-  if(book.read)
+  console.log(book.read)
+  if(book.read === 'read')
   {
     readBtn.textContent = 'Read';
-    readBtn.classList.add('read-button-true')
+    readBtn.classList.add('green-button')
   }
   else
   {
     readBtn.textContent = 'Not Read';
-    readBtn.classList.add('read-button-false')
+    readBtn.classList.add('red-button')
   }
 
   bookCard.appendChild(title)
@@ -70,6 +72,24 @@ function removeBook(title) {
   }
 }
 
+function changeReadButton(title, readBtn) {
+  const index = myLibrary.findIndex(book => book.title === title);
+  if (index !== -1) {
+    const book = myLibrary[index]; // Get the book object
+    
+    // Check the class name of the button to determine its state
+    if (readBtn.classList.contains('green-button')) {
+      readBtn.classList.remove('green-button'); // Remove the 'green-button' class
+      readBtn.classList.add('red-button');       // Add the 'red-button' class
+      book.read = 'not read'; // Update the book object
+    } else if (readBtn.classList.contains('red-button')) {
+      readBtn.classList.remove('red-button');   // Remove the 'red-button' class
+      readBtn.classList.add('green-button');    // Add the 'green-button' class
+      book.read = 'read'; // Update the book object
+    }
+    loopBooks()
+  }
+}
 const bookCardContainer = document.querySelector('.main-content');
 
 bookCardContainer.addEventListener('click', function (event) {
@@ -87,6 +107,18 @@ bookCardContainer.addEventListener('click', function (event) {
       loopBooks();
     }
   }
+  if (event.target.classList.contains('read-button')) {
+    const bookCard = event.target.closest('.book-card');
+    if (bookCard) {
+      // Get the title of the book associated with the clicked button
+      const titleElement = bookCard.querySelector('p'); // Assuming the title is in a <p> element
+      const title = titleElement.textContent;
+
+      // Call changeReadButton with the actual button element
+      const readBtn = event.target; // The clicked button
+      changeReadButton(title, readBtn);
+    }
+}
 });
 
 function loopBooks() {
@@ -110,20 +142,21 @@ function startForm()
 }
 
 function getValues() {
-  let read = document.querySelector('input[name="read"]:checked');
-  let form = document.getElementById("popUpForm");
-  let title = document.getElementById("title").value;
-  let author = document.getElementById("author").value;
-  let pages = document.getElementById("pages").value;
+  let read, form, title, author, pages;
+  read = document.querySelector('input[name="readOption"]:checked');
+  form = document.getElementById("popUpForm");
+  title = document.getElementById("title").value;
+  author = document.getElementById("author").value;
+  pages = document.getElementById("pages").value;
   
-  if (!title || !author || !pages || read) {
+  if (!title || !author || !pages || !read) {
     alert("Please fill out all required fields.");
     return;
   }
 
-  console.log("Read:", read);
+  let selectedOption = read.value;
 
-  addBookToLibrary(title, author, pages, read);
+  addBookToLibrary(title, author, pages, selectedOption);
   loopBooks();
   form.style.display = 'none';
 }
