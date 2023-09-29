@@ -141,7 +141,9 @@ function startForm()
   form.style.display = 'flex';
 }
 
-function getValues() {
+function getValues(event) {
+  event.preventDefault();
+
   let read, form, title, author, pages;
   read = document.querySelector('input[name="readOption"]:checked');
   form = document.getElementById("popUpForm");
